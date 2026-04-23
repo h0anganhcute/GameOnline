@@ -23,8 +23,11 @@ public class SoiAiI : NetworkBehaviour
     private TickTimer timerNghi;
     private bool dangNghi = false;
 
+    Animator ani;
+
     public override void Spawned()
     {
+        ani = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         tamVungTuanTra = transform.position;
 
@@ -57,6 +60,7 @@ public class SoiAiI : NetworkBehaviour
             if (timerNghi.Expired(Runner))
             {
                 dangNghi = false;
+                ani.SetBool("Run", true);
                 TimDiemTuanTraMoi();
             }
         }
@@ -68,12 +72,8 @@ public class SoiAiI : NetworkBehaviour
                 {
                     dangNghi = true;
                     timerNghi = TickTimer.CreateFromSeconds(Runner, thoiGianNghi);
-                    SetIdle();
+                    ani.SetBool("Run", false);
                 }
-            }
-            else
-            {
-                SetRun();
             }
         }
     }
@@ -94,29 +94,12 @@ public class SoiAiI : NetworkBehaviour
             {
                 agent.isStopped = false;
                 agent.SetDestination(hit.position);
-                SetRun();
+
                 return;
             }
         }
     }
 
-    void SetRun()
-    {
-        if (netAnim != null && netAnim.Animator != null)
-        {
-            netAnim.Animator.SetBool("IsRun", true);
-            netAnim.Animator.SetBool("IsAttack", false);
-        }
-    }
-
-    void SetIdle()
-    {
-        if (netAnim != null && netAnim.Animator != null)
-        {
-            netAnim.Animator.SetBool("IsRun", false);
-            netAnim.Animator.SetBool("IsAttack", false);
-        }
-    }
 
     void OnDrawGizmos()
     {

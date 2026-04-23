@@ -4846,8 +4846,6 @@ GameObject:
   - component: {fileID: 1260262680682125493}
   - component: {fileID: 2404777721474489476}
   - component: {fileID: 7979367912041000019}
-  - component: {fileID: 8953328165844719518}
-  - component: {fileID: 5065735578450670387}
   m_Layer: 0
   m_Name: vfx_Flamethrower_01
   m_TagString: Untagged
@@ -4865,7 +4863,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 399.99988, y: 399.9999, z: 399.9999}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3578935019304643391}
@@ -9689,8 +9687,7 @@ MonoBehaviour:
   Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
-  - {fileID: 8953328165844719518}
-  - {fileID: 6266822463909336367}
+  - {fileID: 3478543621874071569}
   ForceRemoteRenderTimeframe: 0
 --- !u!54 &7979367912041000019
 Rigidbody:
@@ -9715,44 +9712,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8953328165844719518
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8400424712307853490}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29b0c7ed4617b3949890a2f4bb0a74c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lifeTime: 3
---- !u!65 &5065735578450670387
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8400424712307853490}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.6557209, y: 0.48956832, z: 3.7521558}
-  m_Center: {x: -0.28889784, y: -0.04690756, z: 1.3609109}
 --- !u!1 &8776146644004418828
 GameObject:
   m_ObjectHideFlags: 0
@@ -9764,8 +9727,8 @@ GameObject:
   - component: {fileID: 3578935019304643391}
   - component: {fileID: 227124197536107516}
   - component: {fileID: 8950552016250745097}
-  - component: {fileID: 6266822463909336367}
-  - component: {fileID: 8064902249429857284}
+  - component: {fileID: 3478543621874071569}
+  - component: {fileID: 900900628475762424}
   m_Layer: 0
   m_Name: Flames
   m_TagString: Untagged
@@ -9782,7 +9745,7 @@ Transform:
   m_GameObject: {fileID: 8776146644004418828}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.08512008, z: -0, w: 0.99637073}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.17, y: 0, z: -0.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14588,7 +14551,7 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &6266822463909336367
+--- !u!114 &3478543621874071569
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -14597,12 +14560,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8776146644004418828}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29b0c7ed4617b3949890a2f4bb0a74c6, type: 3}
+  m_Script: {fileID: 11500000, guid: 7864194bf3149c24399a2b24c60b3094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeTime: 3
---- !u!64 &8064902249429857284
-MeshCollider:
+  satThuong: 10
+--- !u!65 &900900628475762424
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -14616,10 +14579,9 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
+  serializedVersion: 3
+  m_Size: {x: 0.72620404, y: 1.1231582, z: 4.269424}
+  m_Center: {x: 0.000024126397, y: 0.06773243, z: 2.0335298}
