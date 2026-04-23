@@ -12,6 +12,8 @@ public class DamageableFusion : NetworkBehaviour
     Animator ani;
     public override void Spawned()
     {
+        Run = GetComponentInParent<NetworkBehaviour>();
+        tanCong = GetComponentInParent<NetworkBehaviour>();
         ani = GetComponentInParent<Animator>();
         base.Spawned();
         if (Object.HasStateAuthority)

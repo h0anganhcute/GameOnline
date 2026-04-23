@@ -7,6 +7,7 @@ TagManager:
   - HitBox
   - Enemy
   - ViTriBoss
+  - Boss
   layers:
   - Default
   - TransparentFX
