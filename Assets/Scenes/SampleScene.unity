@@ -25585,7 +25585,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1467552861}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 98ab71a79f3678f469223581e6dc6757, type: 3}
   m_Name: 
@@ -33802,6 +33802,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -6.053423
       objectReference: {fileID: 0}
+    - target: {fileID: 6614086704619104519, guid: 26bfd0bd822ceb147bee967f62c75f1b, type: 3}
+      propertyPath: thoiGianNghi
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6676179940392844937, guid: 26bfd0bd822ceb147bee967f62c75f1b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 24.9238
@@ -33853,6 +33857,14 @@ PrefabInstance:
     - target: {fileID: 7425356386346857631, guid: 26bfd0bd822ceb147bee967f62c75f1b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7612121667101528305, guid: 26bfd0bd822ceb147bee967f62c75f1b, type: 3}
+      propertyPath: TriggerHashes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7612121667101528305, guid: 26bfd0bd822ceb147bee967f62c75f1b, type: 3}
+      propertyPath: 'TriggerHashes.Array.data[1]'
+      value: 1080829965
       objectReference: {fileID: 0}
     - target: {fileID: 7642358009634105758, guid: 26bfd0bd822ceb147bee967f62c75f1b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

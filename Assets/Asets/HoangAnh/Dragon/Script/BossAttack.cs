@@ -4,74 +4,66 @@ using Fusion;
 public class BossAttack : NetworkBehaviour
 {
     [Header("Cấu hình tấn công")]
-    [SerializeField] private float thoiGianGiuaMoiPhatVả = 3f; // Bao lâu vả 1 phát
-    [Tooltip("Thời gian con Boss đứng yên múa skill (Khớp với độ dài của Animation Attack)")]
+    [SerializeField] private float thoiGianGiuaMoiPhatVả = 3f;
     [SerializeField] private float thoiGianAnimationAttack = 1.5f;
 
     [Header("Script cần tắt khi đánh")]
     [SerializeField] NetworkBehaviour Run;
     private Animator ani;
 
-    // Bộ đếm thời gian chuẩn mạng của Fusion
+    // Các bộ đếm và Cờ (Flag)
     [Networked] private TickTimer timerAttack { get; set; }
-    [Networked] private TickTimer timerDangDanh { get; set; } // Đếm thời gian đang đứng múa skill
+    [Networked] private TickTimer timerDangDanh { get; set; }
+
+    // ĐẶT CỜ Ở ĐÂY
+    [Networked] private NetworkBool dangMuaSkill { get; set; }
 
     public override void Spawned()
     {
-        // Lấy Animator gắn trên con Boss
         ani = GetComponent<Animator>();
 
-        // Khởi tạo phát chém đầu tiên sau 3 giây
         if (HasStateAuthority)
         {
             timerAttack = TickTimer.CreateFromSeconds(Runner, thoiGianGiuaMoiPhatVả);
+            dangMuaSkill = false; // Mới đẻ ra thì cờ tắt
         }
     }
 
     public override void FixedUpdateNetwork()
     {
-        // Chỉ thằng nắm quyền (Host/Server) mới được quyết định khi nào Boss đánh
         if (!HasStateAuthority) return;
 
-        // ========================================================
-        // 1. XỬ LÝ BẬT/TẮT SCRIPT DI CHUYỂN
-        // ========================================================
-        if (timerDangDanh.IsRunning)
+        // LUỒNG 1: NẾU CỜ ĐANG BẬT (Đang đứng múa skill)
+        if (dangMuaSkill)
         {
-            // Đang múa skill -> TẮT script Run
-            if (Run != null && Run.enabled)
+            // Chỉ chờ đếm giờ múa xong
+            if (timerDangDanh.Expired(Runner))
             {
-                Run.enabled = false;
+                // Đã múa xong -> Tắt cờ, bật lại Script đi dạo
+                dangMuaSkill = false;
+                if (Run != null) Run.enabled = true;
+
+                // Múa xong mới bắt đầu đếm giờ cho cú vả tiếp theo (tùy mày muốn đếm lúc bắt đầu hay lúc kết thúc)
+                timerAttack = TickTimer.CreateFromSeconds(Runner, thoiGianGiuaMoiPhatVả);
             }
         }
+        // LUỒNG 2: NẾU CỜ ĐANG TẮT (Đi dạo bình thường)
         else
         {
-            // Đã múa xong (hoặc đang đi bình thường) -> BẬT lại script Run
-            if (Run != null && !Run.enabled)
+            // Chờ đếm giờ tới phát đánh tiếp theo
+            if (timerAttack.Expired(Runner))
             {
-                Run.enabled = true;
+                if (ani != null) ani.SetTrigger("Attack");
+
+                // BẬT CỜ LÊN và thiết lập thời gian múa skill
+                dangMuaSkill = true;
+                timerDangDanh = TickTimer.CreateFromSeconds(Runner, thoiGianAnimationAttack);
+
+                // Tắt script di chuyển (Chỉ gọi ĐÚNG 1 LẦN nhờ có cờ bọc lại)
+                if (Run != null) Run.enabled = false;
+
+                Debug.Log("⚔️ Boss bắt đầu vả! Đã đặt cờ khóa chân.");
             }
-        }
-
-        // ========================================================
-        // 2. LOGIC TẤN CÔNG
-        // ========================================================
-        // Nếu bộ đếm thời gian đã chạy xong (đủ 3 giây) và không bị kẹt đánh
-        if (timerAttack.Expired(Runner))
-        {
-            // Chạy Animation Tấn Công
-            if (ani != null)
-            {
-                ani.SetTrigger("Attack");
-            }
-
-            // Khóa chân Boss (tắt Run) trong đúng khoảng thời gian múa skill
-            timerDangDanh = TickTimer.CreateFromSeconds(Runner, thoiGianAnimationAttack);
-
-            // Reset lại bộ đếm để 3 giây sau đánh tiếp
-            timerAttack = TickTimer.CreateFromSeconds(Runner, thoiGianGiuaMoiPhatVả);
-
-            Debug.Log("⚔️ Boss đang vả! Tạm thời tắt script Run.");
         }
     }
 }

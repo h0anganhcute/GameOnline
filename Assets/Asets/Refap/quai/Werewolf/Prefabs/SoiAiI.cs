@@ -73,6 +73,7 @@ public class SoiAiI : NetworkBehaviour
                     dangNghi = true;
                     timerNghi = TickTimer.CreateFromSeconds(Runner, thoiGianNghi);
                     ani.SetBool("Run", false);
+                    ani.SetTrigger("Attack");
                 }
             }
         }
