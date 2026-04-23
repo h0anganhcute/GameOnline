@@ -1,11 +1,11 @@
 ﻿using Fusion;
 using UnityEngine;
 
-public class DamageableFusion : NetworkBehaviour
+public class HpBoss : NetworkBehaviour
 {
     [Header("Health")]
     [Networked] public int CurrentHP { get; set; }
-    [SerializeField] public int MaxHP = 100;
+    [SerializeField] public int MaxHP = 10;
     [SerializeField] NetworkBehaviour Run;
     [SerializeField] NetworkBehaviour tanCong;
     [Networked] private TickTimer DeathTimer { get; set; }

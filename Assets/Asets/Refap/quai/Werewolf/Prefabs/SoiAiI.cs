@@ -36,18 +36,6 @@ public class SoiAiI : NetworkBehaviour
             TimDiemTuanTraMoi();
         }
     }
-
-    // Mỗi khi script này được Bật lại (OnEnable) bởi AttackSoi, nó sẽ ép lại tốc độ đi bộ
-    //private void OnEnable()
-    //{
-    //    if (agent != null)
-    //    {
-    //        agent.speed = tocDoTuanTra;
-    //        dangNghi = false;
-    //        TimDiemTuanTraMoi();
-    //    }
-    //}
-
     public override void FixedUpdateNetwork()
     {
         if (!HasStateAuthority || agent == null) return;
