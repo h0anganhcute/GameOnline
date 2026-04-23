@@ -6,16 +6,27 @@ public class DamageableFusion : NetworkBehaviour
     [Header("Health")]
     [Networked] public int CurrentHP { get; set; }
     [SerializeField] public int MaxHP = 100;
+
+    [Header("References")]
     [SerializeField] NetworkBehaviour Run;
     [SerializeField] NetworkBehaviour tanCong;
+
+    // Lưu lại NetworkObject của cha để xóa cho đúng
+    private NetworkObject parentNetworkObject;
+
     [Networked] private TickTimer DeathTimer { get; set; }
     Animator ani;
+
     public override void Spawned()
     {
-        Run = GetComponentInParent<NetworkBehaviour>();
-        tanCong = GetComponentInParent<NetworkBehaviour>();
+        // Lấy Animator và các component điều khiển ở cha
         ani = GetComponentInParent<Animator>();
+
+        // Tìm NetworkObject ở cha
+        parentNetworkObject = GetComponentInParent<NetworkObject>();
+
         base.Spawned();
+
         if (Object.HasStateAuthority)
         {
             CurrentHP = MaxHP;
@@ -25,8 +36,6 @@ public class DamageableFusion : NetworkBehaviour
     public void InflictDamage(int damage, GameObject source)
     {
         if (!Object.HasStateAuthority) return;
-
-        // Nếu đã chết rồi thì khỏi trừ nữa
         if (DeathTimer.IsRunning) return;
 
         CurrentHP -= damage;
@@ -39,10 +48,13 @@ public class DamageableFusion : NetworkBehaviour
 
     private void StartDeathCountdown()
     {
-        Run.enabled = false;
-        tanCong.enabled = false;
-        ani.SetTrigger("Die");
-        // Set timer 3 giây
+        // Tắt các script di chuyển/tấn công (nếu có tham chiếu)
+        if (Run != null) Run.enabled = false;
+        if (tanCong != null) tanCong.enabled = false;
+
+        if (ani != null) ani.SetTrigger("Die");
+
+        // Bắt đầu đếm ngược 3 giây trước khi biến mất hoàn toàn
         DeathTimer = TickTimer.CreateFromSeconds(Runner, 3f);
     }
 
@@ -60,11 +72,20 @@ public class DamageableFusion : NetworkBehaviour
     {
         if (Runner != null)
         {
-            Runner.Despawn(Object);
+            // Nếu tìm thấy NetworkObject cha thì xóa cha, không thì xóa chính mình
+            if (parentNetworkObject != null)
+            {
+                Runner.Despawn(parentNetworkObject);
+            }
+            else
+            {
+                Runner.Despawn(Object);
+            }
         }
         else
         {
-            Destroy(gameObject);
+            // Trường hợp fallback nếu không phải network object (hiếm khi xảy ra với Fusion)
+            Destroy(transform.parent != null ? transform.parent.gameObject : gameObject);
         }
     }
 }
