@@ -967,6 +967,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _CurrentHP: 10
   MaxHP: 10
+  Run: {fileID: -4961030389176076877}
+  tanCong: {fileID: -4961030389176076877}
 --- !u!1 &3500691995608277614
 GameObject:
   m_ObjectHideFlags: 0
